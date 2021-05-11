@@ -1,6 +1,6 @@
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
-import LocalStorage from 'lowdb/adapters/LocalStorage'
+const LocalStorage = require("lowdb/adapters/LocalStorage");
 const Memory = require('lowdb/adapters/Memory')
 const path = require('path');
 
