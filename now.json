@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "petgram-server-ZAG",
-  "builds": [{ "src": "index.js", "use": "@now/node" }],
+  "builds": [{ "src": "index.js", "use": "@vercel/node" }],
   "alias": ["petgram-api-zag"],
   "routes": [{
     "headers": {
