@@ -8,7 +8,7 @@ const path = require('path');
 const json = require('./db.json')
 const isLocal = true
 //process.env.NOW_REGION
-const type = new LocalStorage('./db.json')
+const type = new LocalStorage('db')
 
 const db = low(type)
 db.defaults(json).write()
