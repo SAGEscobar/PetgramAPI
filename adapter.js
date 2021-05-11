@@ -1,5 +1,6 @@
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
+import LocalStorage from 'lowdb/adapters/LocalStorage'
 const Memory = require('lowdb/adapters/Memory')
 const path = require('path');
 
@@ -7,7 +8,7 @@ const path = require('path');
 const json = require('./db.json')
 const isLocal = true
 //process.env.NOW_REGION
-const type = new FileSync('./db.json')
+const type = new LocalStorage('./db.json')
 
 const db = low(type)
 db.defaults(json).write()
