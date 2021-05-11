@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "petgram-server-ZAG",
+  "builds": [{ "src": "index.js", "use": "@now/node" }],
   "alias": ["petgram-api"],
   "routes": [{
     "headers": {
