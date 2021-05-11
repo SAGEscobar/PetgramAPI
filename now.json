@@ -1,8 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "name": "petgram-server-ZAG",
   "alias": ["petgram-api"],
-  "builds": [{ "src": "index.js", "use": "@now/node" }],
   "routes": [{
     "headers": {
         "Access-Control-Allow-Origin": "*",
