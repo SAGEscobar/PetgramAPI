@@ -6,7 +6,7 @@ const Memory = require('lowdb/adapters/Memory')
 const json = require('./db.json')
 const isLocal = true
 //process.env.NOW_REGION
-const type = isLocal ? new FileSync('./db.json') : new Memory
+const type =  new Memory
 
 const db = low(type)
 db.defaults(json).write()
