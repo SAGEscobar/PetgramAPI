@@ -1,7 +1,8 @@
-const db = require('../adapter')
+const dbConnection = require('../adapter')
 
-function list () {
-  return db.get('categories').value()
+async function list () {
+  const db = await dbConnection()
+  return await db.collection('categories').find().toArray()
 }
 
 module.exports = { list }

@@ -1,12 +1,31 @@
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const Memory = require('lowdb/adapters/Memory')
+const { MongoClient } = require('mongodb')
 
-const json = require('./db.json')
-const isLocal = !process.env.NOW_REGION
-const type = new FileSync('./db.json') //isLocal ? new FileSync('./db.json') : new Memory
+const {
+  DB_USER,
+  DB_PASSWD,
+  DB_HOST,
+  DB_DDBB
+} = process.env
 
-const db = low(type)
-db.defaults(json).write()
+const connectionUri = `mongodb+srv://${DB_USER}:${DB_PASSWD}@${DB_HOST}?retryWrites=true&writeConcern=majority`
+const client = new MongoClient(connectionUri, {
+  useNewUrlParse: true,
+  useUnifiedTopology: true
+})
+let db = null
 
-module.exports = db
+const dbConnection = async () => {
+
+  if (db !== null){
+    return db
+  }
+  try{
+    await client.connect()
+    db = await client.db(DB_DDBB)
+  }catch( err ){
+    throw new Error('Ha ocurrido un problema durante la conneccion')
+  }
+  return db
+}
+
+module.exports = dbConnection
