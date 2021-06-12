@@ -30,7 +30,7 @@ async function removeFav({ id, photoId }) {
 async function hasFav({ id, photoId }) {
   const db = await dbConnection()
   const user = await db.collection('users').find({ _id: ObjectID(id) })
-  const hasFav = user.favs.includes(photoId)
+  const hasFav = user.favs.toArray().includes(photoId)
   return hasFav
 }
 
