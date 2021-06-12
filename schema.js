@@ -7,8 +7,7 @@ const bcrypt = require('bcrypt')
 
 const typeDefs = gql`
   type User {
-    _id: ID
-    id: Int
+    id: ID
     avatar: String
     name: String
     email: String
@@ -16,8 +15,7 @@ const typeDefs = gql`
   }
 
   type Photo {
-    _id: ID
-    id: Int
+    id: ID
     categoryId: Int
     src: String
     likes: Int
@@ -26,8 +24,7 @@ const typeDefs = gql`
   }
 
   type Category {
-    _id: ID
-    id: Int
+    id: ID
     cover: String
     name: String
     emoji: String
@@ -37,7 +34,7 @@ const typeDefs = gql`
   type Query {
     favs: [Photo]
     categories: [Category]
-    photos(categoryId: Int): [Photo],
+    photos(categoryId: ID): [Photo],
     photo(id: ID!): Photo
   }
 
@@ -142,7 +139,7 @@ const resolvers = {
 
       // return json web token
       return jsonwebtoken.sign(
-        { id: newUser.id, email: newUser.email },
+        { id: newUser.insertedId, email: newUser.email },
         process.env.JWT_SECRET,
         { expiresIn: '1y' }
       )
