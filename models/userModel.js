@@ -6,31 +6,24 @@ const { ObjectID } = require('mongodb')
 
 async function addFav({ id, photoId }) {
   const db = await dbConnection()
-  let user = await db.collection('users').findOne({ _id: ObjectID(id) })
-  let photo = await db.collection('photos').findOne({ _id: ObjectID(id) })
 
-  if (!user || !photo) {
-    throw new Error('The user or photo does not exist')
-  }
-  await db.updateOne({ _id: ObjectID(id) }, { $addToSet: { favs: ObjectID(photoId) } })
+  await db.collection('users').updateOne({ _id: ObjectID(id) }, { $addToSet: { favs: ObjectID(photoId) } })
 }
 
 async function removeFav({ id, photoId }) {
   const db = await dbConnection()
+  
   const user = await db.collection('users').findOne({ _id: ObjectID(id) })
-  const photo = await db.collection('photos').findOne({ _id: ObjectID(photoId) })
-
-  if (!user || !photo) {
-    throw new Error('The user or photo does not exist')
-  }
-
-  await db.updateOne({ _id: ObjectID(id) }, { $pull: { favs: ObjectID(photoId) } })
+  const favs = user.favs.filter(fav => fav.toString() !== photoId.toString())
+  await db.collection('users').updateOne({ _id: ObjectID(id) }, { $set: { favs } })
 }
 
 async function hasFav({ id, photoId }) {
   const db = await dbConnection()
-  const user = await db.collection('users').find({ _id: ObjectID(id) })
-  const hasFav = user.favs.toArray().includes(photoId)
+  const user = await db.collection('users').findOne({ _id: id })
+  
+  const favs = user.favs.map(fav => fav.toString())
+  const hasFav = favs.includes(photoId.toString())
   return hasFav
 }
 
@@ -60,8 +53,9 @@ async function create({ email, password }) {
 
 async function find({ email }) {
   const db = await dbConnection()
-  return await db.collection('users')
-    .findOne({ email: email })
+  const user = await db.collection('users').findOne({ email: email })
+  
+  return user
 }
 
 module.exports = { create, addFav, hasFav, removeFav, find }
