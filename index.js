@@ -5,7 +5,6 @@ const { ApolloServer } = require('apollo-server-express')
 const { resolvers, typeDefs } = require('./schema')
 const jwt = require('express-jwt')
 
-// this is not secure! this is for dev purposes
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'somereallylongsecretkey'
 
 const PORT = process.env.PORT || 3500
